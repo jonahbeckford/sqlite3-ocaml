@@ -11,5 +11,10 @@
 
 (rule
  (targets c_flags.sexp c_library_flags.sexp)
+ (deps
+  (env_var PKG_CONFIG_PATH)
+  (env_var SQLITE3_DISABLE_LOADABLE_EXTENSIONS)
+  (env_var SQLITE3_OCAML_BREWCHECK)
+  (env_var SQLITE3_OCAML_DISABLE_OPTLEVEL))
  (action
   (run ./config/discover.exe)))

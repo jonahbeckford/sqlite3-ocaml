@@ -48,6 +48,10 @@ Undefined symbols for architecture …:
   automates this. This will instruct the build to check for the installation
   of a _brewed_ version of SQLite and route `pkg-config` appropriately.
 
+- You can remove the `-O2` compile flag (`/O2` with MSVC) if it conflicts
+  with another compile flag from `ocamlc -config`. Set the environment
+  variable `SQLITE3_OCAML_DISABLE_OPTLEVEL`.
+
 - You can explicitly disable run-time loadable extensions by calling
   `configure` with the flag `--disable-loadable-extensions` or by setting
   the environment variable `SQLITE3_DISABLE_LOADABLE_EXTENSIONS` if linking

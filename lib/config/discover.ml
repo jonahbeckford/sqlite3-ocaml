@@ -70,9 +70,12 @@ let split_ws str =
 
 let add_compiler_args ~is_msvc ~cflags ~libs =
   let module C = Configurator.V1 in
-  match is_msvc with
-  | true -> { C.Pkg_config.cflags = cflags @ [ "/O2" ]; libs }
-  | false ->
+  let no_opt = opt_is_some (getenv_opt "SQLITE3_OCAML_DISABLE_OPTLEVEL") in
+  match (is_msvc, no_opt) with
+  | true, true -> { C.Pkg_config.cflags; libs }
+  | true, false -> { C.Pkg_config.cflags = cflags @ [ "/O2" ]; libs }
+  | false, true -> { C.Pkg_config.cflags = cflags @ [ "-fPIC"; "-DPIC" ]; libs }
+  | false, false ->
       { C.Pkg_config.cflags = cflags @ [ "-O2"; "-fPIC"; "-DPIC" ]; libs }
 
 let () =
